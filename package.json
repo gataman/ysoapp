@@ -1,0 +1,27 @@
+{
+  "name": "ysoapp2",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt-ts",
+    "build": "nuxt-ts build",
+    "start": "nuxt-ts start",
+    "generate": "nuxt-ts generate"
+  },
+  "dependencies": {
+    "@nuxt/typescript-runtime": "^2.0.1",
+    "@nuxtjs/auth-next": "^5.0.0-1611574754.9020f2a",
+    "@nuxtjs/axios": "^5.12.5",
+    "@nuxtjs/proxy": "^2.1.0",
+    "core-js": "^3.8.3",
+    "nuxt": "^2.14.12",
+    "nuxt-socket-io": "^1.1.14",
+    "socket.io": "^3.1.1",
+    "vue-infinite-loading": "^2.4.5"
+  },
+  "devDependencies": {
+    "@nuxt/types": "^2.14.12",
+    "@nuxt/typescript-build": "^2.0.4",
+    "@nuxtjs/vuetify": "^1.11.3"
+  }
+}
