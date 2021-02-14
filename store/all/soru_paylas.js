@@ -1,5 +1,5 @@
 export const state = () => ({
-    paylasimList: null,
+    paylasimList: [],
 })
 
 export const mutations = {
@@ -7,46 +7,89 @@ export const mutations = {
         state.paylasimList = paylasimList
     },
 
-    setLike(state,paylasim){
-        console.log("mutatations tetiklendi")
-        console.log(paylasim.id)
-       console.log(state.getPaylasimList)
+    setInfiniteList(state, data) {
 
+        if (data.list.length > 0) {
+            data.list.forEach((item) => state.paylasimList.push(item));
+            data.state.loaded();
+        } else {
+            data.state.complete();
+        }
+
+
+
+    },
+
+    paylasimBegen(state, paylasim) {
+        console.log(paylasim) 
+
+        /*
+
+        this.socket.on("paylasimBegen", (paylasim) => {
+      console.log("cevap geldi");
+      console.log(paylasim);
+      if (paylasim) {
+        const pay = this.paylasimList.find(
+          (item) => item.id === paylasim.paylasimID
+        );
+        if (pay) {
+          if (paylasim.isLike) {
+            pay.begeniSayisi--;
+          } else {
+            pay.begeniSayisi++;
+          }
+
+          if (this.userID == paylasim.begenenID) {
+            pay.isLike = !paylasim.isLike;
+          }
+        }
+      }
+    });
+        */
     }
 
-   
+
 }
 
 export const actions = {
 
-    fetchPaylasimList(vueContext, options) {
-        console.log(options);
-        const url = 'paylasim/getAllWithSponsor2/'+options.bolumID+'/'+options.page;
-        console.log(url)
-        return this.$axios.post(url,{soruTipi : options.soruTipi, dersID : options.dersID, konuID: options.konuID, kimler: options.kimler}).then(response => {
-            console.log("liste geldi")
+    fetchPaylasimList(vueContext, data) {
+
+
+        return this.$axios.post(data.url, data.options).then(response => {
             vueContext.commit('setPaylasimList', response.data)
+        }).catch(err => {
+            console.log("error")
+            console.log(err)
+        })
+
+    },
+
+    fetchInfiniteList(vueContext, data) {
+        return this.$axios.post(data.url, data.options).then(response => {
+
+            vueContext.commit('setInfiniteList', { list: response.data, state: data.state })
         }).catch(err => {
             console.log("error")
             console.log(err)
         })
     },
 
-    setLike(vueContext,paylasim){
+    paylasimBegen(vueContext, paylasim) {
         console.log("setLike tetiklendi")
         console.log(paylasim)
         vueContext.commit('setLike', paylasim)
     }
 
-    
+
 }
 
 
 
 
 export const getters = {
-    getPaylasimList(state) {
+    paylasimList(state) {
         return state.paylasimList
     },
-    
+
 }

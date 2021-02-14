@@ -124,12 +124,12 @@ export default {
         {
           icon: "mdi-apps",
           title: "Ana Sayfa",
-          to: "/student",
+          to: "/student_panel",
         },
         {
           icon: "mdi-chart-bubble",
-          title: "Inspire",
-          to: "/inspire",
+          title: "Soru Paylaş",
+          to: "/soru_paylas",
         },
       ],
       

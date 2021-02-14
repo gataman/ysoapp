@@ -25,7 +25,7 @@ export const actions = {
 
     fetchDuyuruList(vueContext) {
         console.log("fetch list çalıştı")
-        return this.$axios.get('duyurular/getDuyurular').then(response => {
+        return this.$axios.get('/duyurular/getDuyurular').then(response => {
             vueContext.commit('setDuyuruList', response.data)
         }).catch(err => {
             console.log(err)
@@ -34,7 +34,7 @@ export const actions = {
 
     fetchCizelgeList(vueContext) {
         console.log("fetch list çalıştı")
-        return this.$axios.get('cizelge/getGunlukCizelge/0').then(response => {
+        return this.$axios.get('/cizelge/getGunlukCizelge/0').then(response => {
             vueContext.commit('setCizelgeList', response.data)
         }).catch(err => {
             console.log(err)
@@ -44,7 +44,7 @@ export const actions = {
     fetchOgrenciDetay(vueContext) {
         console.log("fetch list çalıştı")
         const ogrenciID = this.$auth.user.id;
-        return this.$axios.get('ogrenci/getOgrenciDetay/' + ogrenciID).then(response => {
+        return this.$axios.get('/ogrenci/getOgrenciDetay/' + ogrenciID).then(response => {
             vueContext.commit('setOgrenciDetay', response.data)
         }).catch(err => {
             console.log(err)
@@ -53,7 +53,7 @@ export const actions = {
 
 
     fetchCalismaProgrami(vueContext) {
-        return this.$axios.get('dersprogrami/getGunlukProgram').then(response => {
+        return this.$axios.get('/dersprogrami/getGunlukProgram').then(response => {
             vueContext.commit('setCalismaProgrami', response.data)
             console.log(response.data)
         }).catch(err => {

@@ -7,7 +7,7 @@
         v-for="(paylasim, index) in paylasimList"
         :key="index"
       >
-        <v-card class="white">
+        <v-card class="white" >
           <v-layout>
             <v-flex>
               <v-card-title class="py-0 pl-1">
@@ -16,7 +16,7 @@
                     <v-img
                       class="elevation-6"
                       alt=""
-                      :src="$config.imageURL + paylasim.fotourl"
+                      :src="`mobilapi/` + paylasim.fotourl"
                     ></v-img>
                   </v-list-item-avatar>
 
@@ -31,12 +31,14 @@
                 </v-list-item>
               </v-card-title>
               <v-divider />
-              <v-card-text class="pa-0">
+              <nuxt-link :to="'soru_paylas/paylasim_detay/' + paylasim.id">
+              <v-card-text class="pa-0"  >
                 <v-img
+                 
                   contain
                   height="300px"
                   class="mt-1 mb-1"
-                  :src="$config.imageURL + `paylasim_foto/` + paylasim.foto"
+                  :src="`mobilapi/` + paylasim.foto"
                 >
                 </v-img>
                 <v-divider />
@@ -46,9 +48,10 @@
 
                 <v-divider />
               </v-card-text>
+              </nuxt-link>
               <v-card-actions>
                 <v-row class="pa-3" align="center" justify="start">
-                  <div @click="likeIt(paylasim.id, paylasim.isLike)">
+                  <div @click="begen(paylasim)">
                     <v-icon class="mr-1" dense color="error">
                       {{ paylasim.isLike ? `mdi-heart` : `mdi-heart-outline` }}
                     </v-icon>
@@ -79,23 +82,21 @@
         </v-card>
       </v-col>
     </v-row>
-    <infinite-loading
-      v-if="paylasimList.length"
-      spinner="bubbles"
-      @infinite="infiniteScroll"
-    >
+    <infinite-loading v-if="paylasimList.length" @infinite="infiniteScroll">
       <span slot="no-more"></span>
+      <span slot="no-results"></span>
     </infinite-loading>
-    <div class="primary--text">{{ paylasimList }}</div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   socket: null,
   layout: "soru-paylas-layout",
   data: () => ({
-    paylasimList: [],
+    userID: null,
     bolumID: 1,
     page: 1,
     options: {
@@ -106,76 +107,70 @@ export default {
     },
   }),
 
-  computed: {
-    url() {
-      return "paylasim/getAllWithSponsor2/" + this.bolumID + "/" + this.page;
-    },
-  },
-
-  created() {
-    this.fetchData();
-  },
-
   methods: {
-    async fetchData() {
-      const response = await this.$axios.post(this.url, this.options);
-      this.paylasimList = response.data;
-    },
+    async begen(paylasim) {
+      const bodyFormData = new FormData();
+      bodyFormData.append("paylasimID", paylasim.id);
+      this.$axios.post("paylasim/updateBegeni", bodyFormData);
 
-    async likeIt(paylasimID, isLike) {
-      let pay = this.paylasimList.find((item) => item.id === paylasimID);
-      pay.isLike = !pay.isLike
+      const data = {
+        paylasimID: paylasim.id,
+        isLike: paylasim.isLike,
+        begenenID: this.userID,
+      };
+      /*
 
-      console.log("like it basıldı id:" + paylasimID);
-      await this.socket.emit(
-        "likeIt",
-        { id: paylasimID, isLike: isLike },
-        (resp) => {
-          console.log("socket cevap geldi");
-          console.log(resp);
-        }
-      );
-    },
-
-    infiniteScroll($state) {
-      setTimeout(() => {
-        this.page++;
-        this.$axios
-          .post(this.url, this.options)
-          .then((response) => {
-            if (response.data.length > 1) {
-              response.data.forEach((item) => this.paylasimList.push(item));
-              $state.loaded();
-            } else {
-              $state.complete();
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }, 500);
-    },
-  },
-
-  mounted() {
-    this.socket = this.$nuxtSocket({
-      // nuxt-socket-io opts:
-      name: "home", // Use socket "home"
-
-      // socket.io-client opts:
-      reconnection: false,
-    });
-
-    this.socket.on("likeIt", (paylasim) => {
-      console.log("socket cevap geldi");
-      console.log(paylasim);
       let pay = this.paylasimList.find((item) => item.id === paylasim.id);
       if (paylasim.isLike) {
         pay.begeniSayisi--;
       } else {
         pay.begeniSayisi++;
       }
+
+      pay.isLike = !pay.isLike;
+      */
+
+      await this.socket.emit("paylasimBegen", data, (resp) => {
+        console.log(resp);
+      });
+    },
+
+    infiniteScroll($state) {
+      this.page++;
+     
+        this.$store.dispatch("all/soru_paylas/fetchInfiniteList", {
+          url: this.url,
+          options: this.options,
+          state: $state,
+        });
+  
+    },
+  },
+
+  computed: {
+    url() {
+      return "/paylasim/getAllWithSponsor2/" + this.bolumID + "/" + this.page;
+    },
+    ...mapGetters("all/soru_paylas", ["paylasimList"]),
+  },
+
+  created() {
+    this.userID = this.$auth.user.id;
+    this.$store.dispatch("all/soru_paylas/fetchPaylasimList", {
+      url: this.url,
+      options: this.options,
     });
+  },
+
+  mounted() {
+    this.socket = this.$nuxtSocket({
+      name: "paylasim",
+      path: "/socket/socket.io",
+      channel: "/paylasim",
+      reconnection: false,
+    });
+
+    
   },
 };
 </script>

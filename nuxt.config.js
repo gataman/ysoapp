@@ -1,10 +1,12 @@
 import colors from 'vuetify/es5/util/colors'
 
+const socketServer = '/io'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
+
   head: {
     titleTemplate: '%s - ysoapp2',
-    title: 'ysoapp2',
+    title: 'Yavuz Selim',
     htmlAttrs: {
       lang: 'tr'
     },
@@ -25,7 +27,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/app-helper.js' },
-    { src: '~/plugins/infiniteloading', ssr: false }
+    { src: '~/plugins/infiniteloading', ssr: false },
+    // { src: '~/plugins/socket-io', ssr:false}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -37,6 +40,7 @@ export default {
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -50,28 +54,49 @@ export default {
 
   io: {
     sockets: [ // Required
-      { 
-        name: 'home', 
-        url: 'https://www.hopayavuzselim.com/socket/',
-        vuex:{
-          //mutations:[{likeIt:'all/soru_paylas/setLike'}]
-          //actions:[{likeIt:'all/soru_paylas/setLike'}]
+      { // At least one entry is required
+        name: 'paylasim',
+        url: '',
+        chanel:'/paylasim',
+        path: '/socket/socket.io',
+        default: true,
+        vuex: { 
+          mutations: [{ 
+            paylasimBegen: 'all/soru_paylas/paylasimBegen' 
+          }
+          ],
+         },
+        namespaces:{
         }
-      
       }
     ]
   },
 
-  publicRuntimeConfig: {
-    imageURL: process.env.IMAGE_URL
-  },
-  privateRuntimeConfig: {
+
+  env: {
+    BASE_URL: 'https://www.hopayavuzselim.com/',
+    API_URL: 'https://www.hopayavuzselim.com/mobilapi/'
   },
 
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
+
+
+
   axios: {
-    baseURL: 'http://localhost:3000/api'
+    baseURL: 'https://www.hopayavuzselim.com/mobilapi/', // Used as fallback if no runtime config is provided
   },
+
+  publicRuntimeConfig: {
+    axios: {
+      browserBaseURL: '/mobilapi/'
+    },
+  },
+
+  privateRuntimeConfig: {
+    axios: {
+      baseURL: 'https://www.hopayavuzselim.com/mobilapi/'
+    }
+  },
+
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
@@ -110,22 +135,6 @@ export default {
     middleware: ['auth']
   },
 
-  proxy: {
-    '/api': {
-      target: 'http://localhost/mobilapi',
-      pathRewrite: {
-        '^/api': ''
-      }
-    },
-
-    '/socket': {
-      target: 'https://www.hopayavuzselim.com/socket/',
-      pathRewrite: {
-        '^/socket': ''
-      }
-    },
-
-  },
   auth: {
     strategies: {
       local: {
@@ -138,7 +147,7 @@ export default {
         },
         user: {
           property: 'user',
-          // autoFetch: true
+          autoFetch: true
         },
         endpoints: {
           login: { url: 'user/web_student_login', method: 'post' },
@@ -147,6 +156,19 @@ export default {
           //userUpdate: { url: '/profile/update', method: 'put'}
         }
       }
-    }
+    },
+    cookie: {
+      cookie: {
+        // (optional) If set we check this cookie exsistence for loggedIn check
+        name: 'XSRF-TOKEN',
+      },
+      endpoints: {
+        // (optional) If set, we send a get request to this endpoint before login
+        csrf: {
+          url: ''
+        }
+      }
+    },
+
   },
 }

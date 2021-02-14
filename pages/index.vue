@@ -2,11 +2,9 @@
   <div class="container">
     <div>
       <LogoBig />
-      <h1 class="title">
-        Yavuz Selim Ortaokulu
-      </h1>
+      <h1 class="title">Yavuz Selim Ortaokulu</h1>
       <div class="subtitle">
-       Çok yakında hizmetinizde!
+        Çok yakında hizmetinizde!
       </div>
     </div>
   </div>
@@ -14,8 +12,12 @@
 
 <script>
 export default {
+  auth: false,
   layout: "main",
+
 }
+
+ 
 </script>
 
 <style>
@@ -26,24 +28,15 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
-  
 }
 
 .title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
+  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 64px;
-   color: #ffffff;
+  color: #ffffff;
   letter-spacing: 1px;
 }
 

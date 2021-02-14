@@ -85,6 +85,9 @@ export default {
         .loginWith("local", { data: { kullaniciKodu: this.kod, password: this.password} })
         .then((response) => {
           let user = response.data.user;
+          console.log("gelen user")
+          console.log(user)
+          
           if (user.userType == 1) {
             console.log("öğrenci");
              this.$router.push('/student_panel')

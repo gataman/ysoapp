@@ -1,31 +1,18 @@
 const app = require('express')();
 const http = require('http').createServer(app);
-const io = require('socket.io')(http, {
-    cors: {
-      origin: '*',
-    }
-  });
+const io = require('socket.io')(http);
+const { begeniSocket} = require('./socket/begeni')
 
 app.get('/', (req, res) => {
   res.json({test:"deneme"});
 });
 
-/*
 
-app.get('/drag', (req, res) => {
-  res.sendFile(__dirname + '/drag.html');
+http.listen(4000, () => {
+  console.log('listening on *:4000');
 });
-*/
 
-const nsp = io.of('/room1');
-
-nsp.on('connection', (socket) => {
-  console.log('user connected in nsp');
-  socket.on('isim yaz', (msg) => {
-    nsp.emit('isim yaz', msg);
-  });
-
-});
+begeniSocket(io)
 
 
 
@@ -52,9 +39,6 @@ io.on('connection', (socket) => {
   });
 });
 
-http.listen(4000, () => {
-  console.log('listening on *:4000');
-});
 
 
 

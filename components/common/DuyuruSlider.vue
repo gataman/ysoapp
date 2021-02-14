@@ -11,7 +11,7 @@
       :key="duyuru.id"
     >
       <div reverse-transition="fade-transition" transition="fade-transition">
-        <v-img :src="duyuru.foto"></v-img>
+        <v-img :src="`mobilapi/`+duyuru.foto"></v-img>
       </div>
       <div class="carosel-bottom">
         <div class="d-block text-h6 text-truncate">{{ duyuru.title }}</div>

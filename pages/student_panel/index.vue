@@ -41,6 +41,7 @@ import CalismaProgramiLayout from "~/components/layouts/CalismaProgramiLayout.vu
 import CizelgeLayout from "~/components/layouts/CizelgeLayout.vue";
 import DenemeLayout from "~/components/layouts/DenemeLayout.vue";
 export default {
+   auth: true,
   components: {
     DuyuruSlider,
     CizelgeLayout,
