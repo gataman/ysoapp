@@ -20,35 +20,39 @@ export const mutations = {
 
     },
 
-    paylasimBegen(state, paylasim) {
-        console.log(paylasim) 
+    setBegeni(state, data) {
+        console.log("mutations setBegeni");
+        console.log(data);
 
-        /*
+        const paylasim = data.paylasim
+        if (paylasim) {
+            const pay = state.paylasimList.find(
+                (item) => item.id === paylasim.paylasimID
+            );
+            if (pay) {
+                if (paylasim.isLike) {
+                    pay.begeniSayisi--;
+                } else {
+                    pay.begeniSayisi++;
+                }
 
-        this.socket.on("paylasimBegen", (paylasim) => {
-      console.log("cevap geldi");
-      console.log(paylasim);
-      if (paylasim) {
-        const pay = this.paylasimList.find(
-          (item) => item.id === paylasim.paylasimID
-        );
-        if (pay) {
-          if (paylasim.isLike) {
-            pay.begeniSayisi--;
-          } else {
-            pay.begeniSayisi++;
-          }
-
-          if (this.userID == paylasim.begenenID) {
-            pay.isLike = !paylasim.isLike;
-          }
+                if (data.userID == paylasim.begenenID) {
+                    pay.isLike = !paylasim.isLike;
+                }
+            }
         }
-      }
-    });
-        */
+    },
+
+
+    setSelfBegeni(state, paylasim) {
+        let pay = state.paylasimList.find((item) => item.id === paylasim.paylasimID);
+        if (paylasim.isLike) {
+            pay.begeniSayisi--;
+        } else {
+            pay.begeniSayisi++;
+        }
+        pay.isLike = !pay.isLike;
     }
-
-
 }
 
 export const actions = {
@@ -73,15 +77,7 @@ export const actions = {
             console.log("error")
             console.log(err)
         })
-    },
-
-    paylasimBegen(vueContext, paylasim) {
-        console.log("setLike tetiklendi")
-        console.log(paylasim)
-        vueContext.commit('setLike', paylasim)
     }
-
-
 }
 
 

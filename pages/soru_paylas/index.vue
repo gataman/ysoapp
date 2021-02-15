@@ -7,7 +7,7 @@
         v-for="(paylasim, index) in paylasimList"
         :key="index"
       >
-        <v-card class="white" >
+        <v-card class="white">
           <v-layout>
             <v-flex>
               <v-card-title class="py-0 pl-1">
@@ -32,22 +32,21 @@
               </v-card-title>
               <v-divider />
               <nuxt-link :to="'soru_paylas/paylasim_detay/' + paylasim.id">
-              <v-card-text class="pa-0"  >
-                <v-img
-                 
-                  contain
-                  height="300px"
-                  class="mt-1 mb-1"
-                  :src="`mobilapi/` + paylasim.foto"
-                >
-                </v-img>
-                <v-divider />
-                <div class="aciklama px-2 py-1 secondary--text">
-                  {{ paylasim.aciklama }}
-                </div>
+                <v-card-text class="pa-0">
+                  <v-img
+                    contain
+                    height="300px"
+                    class="mt-1 mb-1"
+                    :src="`mobilapi/` + paylasim.foto"
+                  >
+                  </v-img>
+                  <v-divider />
+                  <div class="aciklama px-2 py-1 secondary--text">
+                    {{ paylasim.aciklama }}
+                  </div>
 
-                <v-divider />
-              </v-card-text>
+                  <v-divider />
+                </v-card-text>
               </nuxt-link>
               <v-card-actions>
                 <v-row class="pa-3" align="center" justify="start">
@@ -118,17 +117,8 @@ export default {
         isLike: paylasim.isLike,
         begenenID: this.userID,
       };
-      /*
-
-      let pay = this.paylasimList.find((item) => item.id === paylasim.id);
-      if (paylasim.isLike) {
-        pay.begeniSayisi--;
-      } else {
-        pay.begeniSayisi++;
-      }
-
-      pay.isLike = !pay.isLike;
-      */
+      
+       this.$store.commit("all/soru_paylas/setSelfBegeni", data);
 
       await this.socket.emit("paylasimBegen", data, (resp) => {
         console.log(resp);
@@ -137,13 +127,12 @@ export default {
 
     infiniteScroll($state) {
       this.page++;
-     
-        this.$store.dispatch("all/soru_paylas/fetchInfiniteList", {
-          url: this.url,
-          options: this.options,
-          state: $state,
-        });
-  
+
+      this.$store.dispatch("all/soru_paylas/fetchInfiniteList", {
+        url: this.url,
+        options: this.options,
+        state: $state,
+      });
     },
   },
 
@@ -170,7 +159,15 @@ export default {
       reconnection: false,
     });
 
-    
+    this.socket.on("paylasimBegen", (paylasim) => {
+      console.log("cevap geldi");
+      console.log(paylasim);
+
+      this.$store.commit("all/soru_paylas/setBegeni", {
+        paylasim: paylasim,
+        userID: this.userID,
+      });
+    });
   },
 };
 </script>

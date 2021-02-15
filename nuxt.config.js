@@ -57,14 +57,8 @@ export default {
       { // At least one entry is required
         name: 'paylasim',
         url: '',
-        chanel:'/paylasim',
-        path: '/socket/socket.io',
         default: true,
         vuex: { 
-          mutations: [{ 
-            paylasimBegen: 'all/soru_paylas/paylasimBegen' 
-          }
-          ],
          },
         namespaces:{
         }
