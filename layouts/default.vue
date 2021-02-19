@@ -101,10 +101,33 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    -->
-    <v-footer :absolute="!fixed" color="primary" app>
-      <span>&copy; {{ new Date().getFullYear() }}</span>
+   -->
+    <v-footer :absolute="!fixed" class="pa-0 ma-0" app>
+       <v-bottom-navigation
+     class="elevation-6"
+    color="primary"
+  >
+    <v-btn>
+      <span>Recents</span>
+
+      <v-icon>mdi-history</v-icon>
+    </v-btn>
+
+    <v-btn>
+      <span>Favorites</span>
+
+      <v-icon>mdi-heart</v-icon>
+    </v-btn>
+
+    <v-btn>
+      <span>Nearby</span>
+
+      <v-icon>mdi-map-marker</v-icon>
+    </v-btn>
+  </v-bottom-navigation>
     </v-footer>
+    
+      
   </v-app>
 </template>
 

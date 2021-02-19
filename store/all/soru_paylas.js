@@ -1,5 +1,6 @@
 export const state = () => ({
     paylasimList: [],
+    secilenPaylasim : null
 })
 
 export const mutations = {
@@ -15,15 +16,9 @@ export const mutations = {
         } else {
             data.state.complete();
         }
-
-
-
     },
 
     setBegeni(state, data) {
-        console.log("mutations setBegeni");
-        console.log(data);
-
         const paylasim = data.paylasim
         if (paylasim) {
             const pay = state.paylasimList.find(
@@ -52,18 +47,19 @@ export const mutations = {
             pay.begeniSayisi++;
         }
         pay.isLike = !pay.isLike;
+    },
+
+    setSecilenPaylasim(state, paylasim) {
+        state.secilenPaylasim = paylasim
     }
 }
 
 export const actions = {
 
     fetchPaylasimList(vueContext, data) {
-
-
         return this.$axios.post(data.url, data.options).then(response => {
             vueContext.commit('setPaylasimList', response.data)
         }).catch(err => {
-            console.log("error")
             console.log(err)
         })
 
@@ -74,9 +70,23 @@ export const actions = {
 
             vueContext.commit('setInfiniteList', { list: response.data, state: data.state })
         }).catch(err => {
-            console.log("error")
             console.log(err)
         })
+    },
+
+    fetchPaylasimDetay(vueContext, paylasimID) {
+        const paylasim = vueContext.state.paylasimList.find((item) => item.id == paylasimID);
+        if(paylasim){
+            console.log("storedan aldı")
+            return vueContext.commit('setSecilenPaylasim', paylasim)
+        }else{
+            return this.$axios.get('paylasim/getPaylasimDetay/'+paylasimID).then(response => {
+                console.log("veritabanından aldı")
+                vueContext.commit('setSecilenPaylasim', response.data)
+            }).catch(err => {
+                console.log(err)
+            })
+        }
     }
 }
 
@@ -86,6 +96,10 @@ export const actions = {
 export const getters = {
     paylasimList(state) {
         return state.paylasimList
+    },
+
+    getSecilenPaylasim(state) {
+        return state.secilenPaylasim
     },
 
 }

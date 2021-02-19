@@ -1,2 +1,3 @@
 # ysoapp
-Yavuz Selim Ortaokulu web app
+# Yavuz Selim Ortaokulu web app
+# nuxt.config.php
