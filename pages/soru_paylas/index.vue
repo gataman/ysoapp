@@ -1,20 +1,28 @@
 <template>
-  <div>
-    <paylasim-layout  :paylasimList="paylasimList"  @begenClicked="begen($event)"/>
+  <v-app>
+    <paylasim-layout
+      :paylasimList="paylasimList"
+      @begenClicked="begen($event)"
+    />
     <infinite-loading v-if="paylasimList.length" @infinite="infiniteScroll">
       <span slot="no-more"></span>
       <span slot="no-results"></span>
     </infinite-loading>
-  </div>
+    
+
+      <bottom-menu @refresh="refreshPage" />
+  </v-app>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import BottomMenu from "~/components/menu/BottomMenu.vue";
 
 export default {
+  components: {BottomMenu },
   socket: null,
-  layout: "soru-paylas-layout",
   data: () => ({
+   
     userID: null,
     bolumID: 1,
     page: 1,
@@ -40,7 +48,7 @@ export default {
 
       this.$store.commit("all/soru_paylas/setSelfBegeni", data);
       //await this.socket.emit("paylasimBegen", data, (resp) => {});
-      this.socket.emit("paylasimBegen", data)
+      this.socket.emit("paylasimBegen", data);
     },
 
     infiniteScroll($state) {
@@ -52,6 +60,16 @@ export default {
         state: $state,
       });
     },
+
+    refreshPage() {
+      this.userID = this.$auth.user.id;
+      this.$store.dispatch("all/soru_paylas/fetchPaylasimList", {
+        url: this.url,
+        options: this.options,
+      });
+    },
+
+    
   },
 
   computed: {
@@ -68,6 +86,8 @@ export default {
       options: this.options,
     });
   },
+
+ 
 
   mounted() {
     this.socket = this.$nuxtSocket({
@@ -86,6 +106,8 @@ export default {
   },
 };
 </script>
+
+
 
 
 

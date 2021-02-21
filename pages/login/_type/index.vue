@@ -87,6 +87,12 @@ export default {
           let user = response.data.user;
           console.log("gelen user")
           console.log(user)
+
+          if(user.bolumID){
+            localStorage.setItem('bolumID',user.bolumID)
+          }else{
+             localStorage.setItem('bolumID',1)
+          }
           
           if (user.userType == 1) {
             console.log("öğrenci");

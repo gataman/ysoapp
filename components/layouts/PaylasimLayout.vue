@@ -84,7 +84,6 @@
         </v-layout>
       </v-card>
     </v-col>
-    {{ paylasimList }}
   </v-row>
 </template>
 

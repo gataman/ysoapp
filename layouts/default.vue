@@ -1,10 +1,13 @@
 <template>
   <v-app light>
     <v-navigation-drawer
-    v-model="drawer"
+      v-model="drawer"
       :clipped="clipped"
       color="primary"
       fixed
+      temporary
+      hide-overlay
+      left
       app
     >
       <template v-slot:prepend>
@@ -66,9 +69,20 @@
         <v-icon>mdi-minus</v-icon>
       </v-btn>
       -->
-
-      <v-toolbar-title class="white--text" v-text="title" />
-      <v-spacer />
+<v-spacer/>
+<LogoToolbar/>
+<v-toolbar-title class="ml-2 white--text " v-text="title" />
+    
+  <v-spacer/>
+  <v-badge
+        class="mr-3"
+         color="red"
+          content="6"
+        
+        overlap
+      >
+  <v-icon color="white">mdi-send</v-icon>
+   </v-badge>
       <!--
       <v-btn
         icon
@@ -102,30 +116,7 @@
       </v-list>
     </v-navigation-drawer>
    -->
-    <v-footer :absolute="!fixed" class="pa-0 ma-0" app>
-       <v-bottom-navigation
-     class="elevation-6"
-    color="primary"
-  >
-    <v-btn>
-      <span>Recents</span>
-
-      <v-icon>mdi-history</v-icon>
-    </v-btn>
-
-    <v-btn>
-      <span>Favorites</span>
-
-      <v-icon>mdi-heart</v-icon>
-    </v-btn>
-
-    <v-btn>
-      <span>Nearby</span>
-
-      <v-icon>mdi-map-marker</v-icon>
-    </v-btn>
-  </v-bottom-navigation>
-    </v-footer>
+  
     
       
   </v-app>

@@ -16,9 +16,11 @@
     "core-js": "^3.8.3",
     "nuxt": "^2.14.12",
     "nuxt-socket-io": "^1.1.14",
+    "rxjs": "^6.6.3",
     "socket.io": "^3.1.1",
-    "vue-croppie": "^2.0.2",
-    "vue-infinite-loading": "^2.4.5"
+    "vue-infinite-loading": "^2.4.5",
+    "vue-rx": "^6.2.0",
+    "vuejs-clipper": "^3.1.2"
   },
   "devDependencies": {
     "@nuxt/types": "^2.14.12",

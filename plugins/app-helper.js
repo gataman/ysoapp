@@ -60,9 +60,6 @@ export default (context, inject) => {
         }
 
         const diff = now - time
-
-        console.log(diff)
-
         if (diff < minuteMillis) {
             return "1 dakika önce"
         } else if (diff < 2 * minuteMillis) {

@@ -2,10 +2,10 @@
   <div class="justify-center">
         <v-img
       
-          max-height="100"
-          max-width="100"
+          max-height="50"
+          max-width="50"
           src="/images/logo_big.png"
-          class="mx-auto mb-4 mt-8"
+          class="mx-auto"
         ></v-img>
       </div>
 </template>

@@ -108,12 +108,12 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
     '@nuxtjs/proxy',
-    'nuxt-socket-io',
-    '@nuxtjs/cloudinary'
-  ],
+    'nuxt-socket-io'
+    ],
 
   plugins: [
     { src: '~/plugins/app-helper.js' },
+    { src: '~/plugins/vue-clipper.js', ssr: false  },
     { src: '~/plugins/infiniteloading', ssr: false },
     // { src: '~/plugins/socket-io', ssr:false}
   ],
