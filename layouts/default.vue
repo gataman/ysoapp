@@ -5,7 +5,6 @@
       :clipped="clipped"
       color="primary"
       fixed
-      temporary
       hide-overlay
       left
       app
@@ -127,7 +126,7 @@ export default {
   data() {
     return {
       clipped: true,
-      drawer: false,
+      drawer: true,
       fixed: true,
       miniVariant: false,
       right: false,
@@ -144,6 +143,53 @@ export default {
           icon: "mdi-chart-bubble",
           title: "Soru Paylaş",
           to: "/soru_paylas",
+        },
+        {
+          icon: "mdi-chart-bubble",
+          title: "Diğer Paylaşımlar",
+          to: "/diger_paylasimlar",
+        },
+        {
+          icon: "mdi-chart-bubble",
+          title: "Soru Bankası",
+          to: "/soru_bankasi",
+        },{
+          icon: "mdi-chart-bubble",
+          title: "Konu Anlatımı",
+          to: "/konu_anlatimi",
+        },{
+          icon: "mdi-chart-bubble",
+          title: "Soru Takibi",
+          to: "/soru_takibi",
+        },{
+          icon: "mdi-chart-bubble",
+          title: "Duyurular",
+          to: "/duyurular",
+        },
+        {
+          icon: "mdi-chart-bubble",
+          title: "Puan Hesapla",
+          to: "/puan_hesapla",
+        },{
+          icon: "mdi-chart-bubble",
+          title: "Deneme Sonuçları",
+          to: "/deneme_sonuclari",
+        },{
+          icon: "mdi-chart-bubble",
+          title: "Çalışma Programı",
+          to: "/calisma_programi",
+        },{
+          icon: "mdi-chart-bubble",
+          title: "Sayaç",
+          to: "/sayac",
+        },{
+          icon: "mdi-chart-bubble",
+          title: "Ajanda",
+          to: "/ajanda",
+        },{
+          icon: "mdi-chart-bubble",
+          title: "Sıralamalar",
+          to: "/siralamalar",
         },
       ],
       
@@ -164,6 +210,32 @@ export default {
   border-radius: 4px 0px 0px 4px !important;
   background-color: #678b57;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #74267D;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+   width: 7px;
+  background: #b262bc;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+  
+ 
+  
+  
 
 
 </style>

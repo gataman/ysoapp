@@ -17,8 +17,8 @@
           hasArrow
           :title="$getDayName(cizelge.gun) + ` Ders Programı`"
         />
-        <v-row class="mx-2 my-2" align="center">
-          <v-col cols="3" v-for="ders in cizelge.dersList" :key="ders.id">
+        <v-row class="mx-1 my-2" align="center">
+          <v-col class="pa-1" cols="3" xs="4" v-for="ders in cizelge.dersList" :key="ders.id">
             <cizelge-layout-item :ders="ders" />
           </v-col>
         </v-row>

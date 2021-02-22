@@ -21,6 +21,7 @@
     </v-list-item>
     <v-divider />
     <v-img
+     @click="$emit('clickZoomImage',`/mobilapi/` + yorum.foto)"
       v-if="yorum.foto !== null"
       contain
       height="300px"

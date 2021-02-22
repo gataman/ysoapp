@@ -1,5 +1,10 @@
 <template>
   <div class="pa-2">
+    <image-zoom
+      :imageUrl="imageUrl"
+      :dialog="imageZoom"
+      @closeDialog="closeZoomImage"
+    />
     <v-card class="pa-2">
       <v-card-title class="py-0 pl-1">
         <v-list-item class="pa-0 ma-0">
@@ -28,15 +33,14 @@
       <v-divider />
 
       <v-card-text class="pa-0">
-        <nuxt-link :to="'soru_paylas/paylasim_detay/' + getSecilenPaylasim.id">
-          <v-img
-            contain
-            height="400px"
-            class="mt-1 mb-1"
-            :src="`/mobilapi/` + getSecilenPaylasim.foto"
-          >
-          </v-img>
-        </nuxt-link>
+        <v-img
+          @click="openZoomImage(`/mobilapi/` + getSecilenPaylasim.foto)"
+          contain
+          height="400px"
+          class="mt-1 mb-1"
+          :src="`/mobilapi/` + getSecilenPaylasim.foto"
+        >
+        </v-img>
         <v-divider />
         <div class="aciklama px-2 py-1 secondary--text">
           {{ getSecilenPaylasim.aciklama }}
@@ -87,7 +91,7 @@
         Henüz yorum yapılmamış yorum yapmak ister misiniz?
       </div>
 
-      <yorum-layout v-for="yorum in yorumList" :key="yorum.id" :yorum="yorum" />
+      <yorum-layout v-for="yorum in yorumList" :key="yorum.id" :yorum="yorum" @clickZoomImage="openZoomImage($event)" />
 
       <v-row class="mb-5 mt-3 pa-0">
         <v-col align="center" justify="start">
@@ -96,8 +100,7 @@
             @refresh="refreshPage"
             :paylasimID="paylasimID"
             :dialog="dialog"
-            @closeDialog="dialog=false"
-           
+            @closeDialog="dialog = false"
           />
         </v-col>
       </v-row>
@@ -108,24 +111,40 @@
 <script>
 import { mapGetters } from "vuex";
 import YorumGonderDialog from "~/components/dialogs/YorumGonderDialog.vue";
+import ImageZoom from "~/components/dialogs/ImageZoom.vue";
 import YorumLayout from "~/components/layouts/YorumLayout.vue";
 export default {
-  components: { YorumGonderDialog, YorumLayout },
+  components: { YorumGonderDialog, YorumLayout, ImageZoom },
+
   data: () => ({
     dialog: false,
+    imageZoom: false,
+    imageUrl:"",
     paylasimID: 0,
     yorumList: null,
   }),
 
   methods: {
     async refreshPage() {
-      this.dialog = false
+      this.dialog = false;
       this.yorumList = await this.$axios
         .get("yorumlar/getAll/" + this.paylasimID)
         .then((response) => {
           return response.data;
         });
     },
+
+    openZoomImage(url){
+      console.log(url)
+      this.imageUrl = url
+      this.imageZoom = true
+
+    },
+
+    closeZoomImage(){
+      this.imageUrl = ""
+      this.imageZoom = false
+    }
   },
   computed: {
     ...mapGetters("all/soru_paylas", ["getSecilenPaylasim"]),
