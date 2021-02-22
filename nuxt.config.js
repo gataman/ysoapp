@@ -116,6 +116,7 @@ export default {
     { src: '~/plugins/vue-clipper.js', ssr: false  },
     { src: '~/plugins/infiniteloading', ssr: false },
     { src: '~/plugins/vue-viewer', ssr: false },
+    { src: '~/plugins/vue-chart', ssr: false },
     // { src: '~/plugins/socket-io', ssr:false}
   ],
 
